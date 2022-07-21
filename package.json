@@ -1,0 +1,22 @@
+{
+    "name": "ensoproject",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "nodemon src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tomer-fok/ensoproject.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tomer-fok/ensoproject/issues"
+    },
+    "homepage": "https://github.com/tomer-fok/ensoproject#readme",
+    "dependencies": {
+        "nodemon": "^2.0.19"
+    }
+}
