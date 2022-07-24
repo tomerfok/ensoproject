@@ -1,11 +1,11 @@
-// const preLogApi = (req, res, next) => {
-//     logger.info({
-//         message: 'request to api',
-//         method: req.method,
-//         ip: req.ip,
-//         endpoint: req.originalUrl
-//     });
-//     next();
-// };
+const errorHandler = (req, res, next) => {
+    console.log({
+        message: 'request to api',
+        method: req.method,
+        ip: req.ip,
+        endpoint: req.originalUrl
+    });
+    next();
+};
 
-// module.exports = { preLogApi };
+export { errorHandler };

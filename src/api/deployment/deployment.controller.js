@@ -1,16 +1,44 @@
-const { Router } = require('express');
-const router = Router();
-// const { crawlCall } = require('./crawl.controller');
+// import { Post } from "../db/models/index.js";
+// import postStore from "./post.store.js";
+// import userStore from "../user/user.store.js";
 
-router.get('/', async(req, res, next) => {
+const upsertImage = async() => {
+    // { userId, title, description }
     try {
-        if (depth > 5)
-            throw new Error("Maximum depth exceeded");
-        crawlCall(req.body);
-        res.status(202).send({ message: "Crawler and logged succefully" });
+        return "work";
+        // await postStore.createPost({ userId, title, description });
     } catch (err) {
-        res.status(400).send(err.message);
+        throw (err);
     }
-});
+};
 
-module.exports = router;
+// const getPosts = async (index, limit) => {
+//     try {
+//         return await postStore.getPosts(index, limit);
+//     } catch (err) {
+//         throw (err);
+//     }
+// };
+
+// const getPostsAmount = async () => {
+//     try {
+//         return await postStore.findAmount();
+//     } catch (err) {
+//         throw (err);
+//     }
+// };
+
+// const deletePost = async ({ postId }) => {
+//     try {
+//         return await postStore.deletePost(postId);
+//     } catch (err) {
+//         throw (err);
+//     }
+// };
+
+export {
+    upsertImage
+    // getPosts,
+    // getPostsAmount,
+    // deletePost
+};
