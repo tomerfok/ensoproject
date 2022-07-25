@@ -1,13 +1,13 @@
 import { Router } from 'express';
 const router = Router();
-import { createImage, updateImage } from './image.controller';
+import { createImage, updateImage, getImage, getSortedImagesByPage, getCombination } from './image.controller';
 
 // router.post('/', middlewarehandler, async(req,res,next) =>)
 
 router.post('/', async(req, res, next) => {
     try {
         const result = await createImage(req.body);
-        res.status(200).send({ message: "Image created", image: req.body });
+        res.status(200).send({ message: "Image created", image: result });
     } catch (err) {
         next(err);
     }
@@ -22,22 +22,31 @@ router.patch('/', async(req, res, next) => {
     }
 });
 
-// router.get('/postsnumber', async(req, res, next) => {
-//     try {
-//         const postsAmount = await getPostsAmount();
-//         res.send({ message: `Amount of posts: ${postsAmount}` });
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+router.get('/', async(req, res, next) => {
+    try {
+        const image = await getImage(req.query.id);
+        res.send({ message: "Image found", image });
+    } catch (err) {
+        next(err);
+    }
+});
 
-// router.delete('/', async(req, res, next) => {
-//     try {
-//         const post = await deletePost(req.query);
-//         res.send({ message: "Post deleted succefully" });
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+router.get('/all', async(req, res, next) => {
+    try {
+        const images = await getSortedImagesByPage(+req.query.page);
+        res.send({ message: "Images found", images });
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get('/combinations', async(req, res, next) => {
+    try {
+        const combinations = await getCombination(+req.query.length);
+        res.send({ message: "Combinations found", combinations });
+    } catch (err) {
+        next(err);
+    }
+});
 
 export default router;

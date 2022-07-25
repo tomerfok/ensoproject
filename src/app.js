@@ -1,5 +1,8 @@
 import express, { json, urlencoded } from 'express';
 import routes from "./api/api.routes"
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 8080;

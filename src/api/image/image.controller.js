@@ -1,12 +1,11 @@
-// import { Post } from "../db/models/index.js";
-// import postStore from "./post.store.js";
-// import userStore from "../user/user.store.js";
-import { create, update } from "./image.store";
+import { create, update, get, getAllByPage, getAll } from "./image.store";
+import { checkImageFields } from "../../utils/image.utils";
 
 const createImage = async(image) => {
     try {
-        const result = await create(image);
-        return result;
+        await checkImageFields(image);
+        await create(image);
+        return image;
     } catch (err) {
         throw (err);
     }
@@ -14,41 +13,70 @@ const createImage = async(image) => {
 
 const updateImage = async(image) => {
     try {
-        const result = await update(image);
-        return result;
+        await checkImageFields(image);
+        image.updatedAt = new Date();
+        await update(image);
+        return image;
     } catch (err) {
         throw (err);
     }
 };
 
-// const getPosts = async (index, limit) => {
-//     try {
-//         return await postStore.getPosts(index, limit);
-//     } catch (err) {
-//         throw (err);
-//     }
-// };
+const getImage = async(id) => {
+    try {
+        const image = await get(id);
+        return image;
+    } catch (err) {
+        throw (err);
+    }
+};
 
-// const getPostsAmount = async () => {
-//     try {
-//         return await postStore.findAmount();
-//     } catch (err) {
-//         throw (err);
-//     }
-// };
+const getSortedImagesByPage = async(page) => {
+    try {
+        const images = await getAllByPage(page);
+        return images;
+    } catch (err) {
+        throw (err);
+    }
+};
 
-// const deletePost = async ({ postId }) => {
-//     try {
-//         return await postStore.deletePost(postId);
-//     } catch (err) {
-//         throw (err);
-//     }
-// };
+const getCombination = async(length) => {
+    try {
+        const images = await getAll();
+
+        function combinationUtil(arr, data, start, end, index, r) {
+            if (index == r) {
+                for (let j = 0; j < r; j++) {
+                    console.log(data[j])
+                    console.log(j)
+                }
+                console.log("+++++++++++++++++")
+                console.log("-----------------");
+            }
+
+            for (let i = start; i <= end && end - i + 1 >= r - index; i++) {
+                data[index] = arr[i];
+                combinationUtil(arr, data, i + 1, end, index + 1, r);
+            }
+        }
+
+        function printCombination(arr, n, r) {
+            let data = new Array(r);
+            combinationUtil(arr, data, 0, n - 1, 0, r);
+        }
+
+        printCombination(images, images.length, length);
+
+        return "worked";
+    } catch (err) {
+        throw (err);
+    }
+};
 
 export {
     createImage,
-    updateImage
-    // getPosts,
-    // getPostsAmount,
-    // deletePost
+    updateImage,
+    getImage,
+    getSortedImagesByPage,
+    getCombination
 };

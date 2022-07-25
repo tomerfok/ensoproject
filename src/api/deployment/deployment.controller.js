@@ -1,44 +1,44 @@
-// import { Post } from "../db/models/index.js";
-// import postStore from "./post.store.js";
-// import userStore from "../user/user.store.js";
+import { create, getAllByPage } from "./deployment.store";
+import fs from "fs/promises";
 
-const upsertImage = async() => {
-    // { userId, title, description }
+const createDeployment = async(imageId) => {
     try {
-        return "work";
-        // await postStore.createPost({ userId, title, description });
+        await create(imageId);
+        let content = await fs.readFile('count.txt', { encoding: 'utf8' });
+        content = +content;
+        content++;
+        await fs.writeFile('count.txt', '' + content, () => {
+            console.log("written to file successfully");
+            //go to README to understand why I chose this solution - option 1
+        });
     } catch (err) {
         throw (err);
     }
 };
 
-// const getPosts = async (index, limit) => {
-//     try {
-//         return await postStore.getPosts(index, limit);
-//     } catch (err) {
-//         throw (err);
-//     }
-// };
+const getSortedDeploymentsByPage = async(page) => {
+    try {
+        const deployments = await getAllByPage(page);
+        return deployments;
+    } catch (err) {
+        throw (err);
+    }
+};
 
-// const getPostsAmount = async () => {
-//     try {
-//         return await postStore.findAmount();
-//     } catch (err) {
-//         throw (err);
-//     }
-// };
-
-// const deletePost = async ({ postId }) => {
-//     try {
-//         return await postStore.deletePost(postId);
-//     } catch (err) {
-//         throw (err);
-//     }
-// };
+const getTotalDeploymentsCount = async() => {
+    try {
+        let content = await fs.readFile('count.txt', { encoding: 'utf8' });
+        content = +content;
+        // assuming all the servers in the system are updating
+        // and reading from the same count.txt file
+        return content;
+    } catch (err) {
+        throw (err);
+    }
+};
 
 export {
-    upsertImage
-    // getPosts,
-    // getPostsAmount,
-    // deletePost
+    createDeployment,
+    getSortedDeploymentsByPage,
+    getTotalDeploymentsCount
 };

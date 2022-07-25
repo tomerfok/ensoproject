@@ -1,7 +1,9 @@
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
+dotenv.config();
 const url = process.env.DBPORT || 'mongodb://127.0.0.1:27017';
 const client = new MongoClient(url);
-const dbName = 'myProject';
+const dbName = process.env.DBNAME || 'myProject';
 
 async function dbConnection() {
     await client.connect();
